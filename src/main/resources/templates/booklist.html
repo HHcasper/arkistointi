@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Book List</title>
+    <title>Arkistolista</title>
 </head>
 <body>
 
-    <h1>Books</h1>
+    <h1>Arkistomerkinnät</h1>
 
-    <p>Logged in as: <strong th:text="${username}"></strong></p>
-
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
+    <p sec:authorize="isAuthenticated()">
+        Kirjautunut käyttäjä: <strong sec:authentication="name"></strong>
+    </p>
+    
+    <form sec:authorize="isAuthenticated()"
+          th:action="@{/logout}" method="post">
+        <button type="submit">Kirjaudu ulos</button>
     </form>
+    
+    <a sec:authorize="isAnonymous()" th:href="@{/login}">
+        Kirjaudu sisään
+    </a>
 
     <br>
 
     <table>
         <thead>
             <tr>
-                <th>Author</th>
-                <th>Title</th>
-                <th>ISBN</th>
-                <th>Year</th>
-                <th>Price</th>
-                <th>Category</th>
+                <th>Huone</th>
+                <th>Hylly</th>
+                <th>Rivi</th>
+                <th>Mappien määrä</th>
+                <th>Yritys</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -32,16 +39,15 @@
 
         <tbody>
             <tr th:each="book : ${books}">
-                <td th:text="${book.author}"></td>
-                <td th:text="${book.title}"></td>
-                <td th:text="${book.isbn}"></td>
-                <td th:text="${book.publicationYear}"></td>
-                <td th:text="${book.price}"></td>
-                <td th:text="${book.category.name}"></td>
-                <td>
+                <td th:text="${book.huone}"></td>
+                <td th:text="${book.hylly}"></td>
+                <td th:text="${book.rivi}"></td>
+                <td th:text="${book.mappienMaara}"></td>
+                <td th:text="${book.yritys != null ? book.yritys.name : '-'}"></td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
                 </td>
-                <td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
                 </td>
             </tr>
@@ -50,7 +56,8 @@
 
     <br>
 
-    <a th:href="@{/addbook}">Add Book</a>
+    <a sec:authorize="hasRole('ADMIN')"
+   th:href="@{/lisaa}">Lisää arkistomerkintä</a>
 
 </body>
 </html>

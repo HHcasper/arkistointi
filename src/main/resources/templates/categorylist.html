@@ -2,21 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Categories</title>
+    <title>Yritykset</title>
 </head>
 <body>
 
-    <h1>Categories</h1>
+    <h1>Yritykset</h1>
 
     <table>
         <tr>
-            <th>Category</th>
+            <th>Yrityksen nimi</th>
         </tr>
 
         <tr th:each="category : ${categories}">
             <td th:text="${category.name}"></td>
         </tr>
     </table>
+    
+    <p>
+        <a th:href="@{/lisaayritys}">Lisää yritys</a>
+    </p>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package backend.bookstore;
+package backend.arkistointi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,13 +34,20 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/delete/**").hasRole("ADMIN")
+                .requestMatchers("/login", "/arkistolista", "/yritykset", "/api/arkistot", "/api/arkistot/**").permitAll()
+                .requestMatchers(
+                    "/delete/**",
+                    "/edit/**",
+                    "/lisaa",
+                    "/tallenna",
+                    "/lisaayritys",
+                    "/tallennaYritys"
+                ).hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/booklist", true)
+                .defaultSuccessUrl("/arkistolista", true)
                 .permitAll()
             )
             .logout(logout -> logout

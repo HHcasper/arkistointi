@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Category</title>
+    <title>Lisää yritys</title>
 </head>
 <body>
 
-    <h1>Add Category</h1>
+    <h1>Lisää yritys</h1>
 
-    <form th:action="@{/savecategory}" th:object="${category}" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{name}">
+    <form th:action="@{/tallennaYritys}" th:object="${category}" method="post">
+        <label for="name">Yrityksen nimi:</label>
+        <input type="text" id="name" th:field="*{name}" required>
 
-        <input type="submit" value="Save">
+        <input type="submit" value="Tallenna yritys">
     </form>
 
 </body>
